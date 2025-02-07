@@ -1,35 +1,80 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+
+import "./App.css";
+import InputQuestion from "./components/InputQuestion";
+import OutPut from "./components/RenderQuestion";
+import { wording } from "./assets/wording";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [rawInput, setRawInput] = useState<string>("");
+  const [currentQuestion, setCurrentQuestion] = useState<string>("");
+  const [listQuestion, setListQuestion] = useState<string[]>([]);
+  const [remainQuestion, setRemainQuestion] = useState<string[]>([]);
+  const [isShowInput, setIsShowInput] = useState<boolean>(true);
+
+  const handleSetQuestion = () => {
+    setIsShowInput(!isShowInput);
+    processQuestions();
+  };
+
+  const processQuestions = () => {
+    const newQuestions = rawInput
+      .split("\n")
+      .filter((pharse) => pharse.trim() !== "");
+
+    setListQuestion(newQuestions);
+    setRemainQuestion([...newQuestions]);
+    setCurrentQuestion("");
+  };
+
+  const randomQuestion = () => {
+    const amountQuestionLeft = remainQuestion.length;
+    if (!amountQuestionLeft) {
+      setCurrentQuestion(wording.outOfQuestion);
+      setTimeout(() => {
+        setCurrentQuestion("");
+      }, 1000);
+      return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * amountQuestionLeft);
+    const selectQuestion = remainQuestion[randomIndex];
+    setCurrentQuestion(selectQuestion);
+    setRemainQuestion((listQuestion) =>
+      listQuestion.filter((question) => question != selectQuestion)
+    );
+  };
+
+  const addNewQuestion = () => {
+    setIsShowInput(!isShowInput);
+  };
+
+  const resetQuestion = () => {
+    setRemainQuestion([...listQuestion]);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="main-container flex-center">
+        {isShowInput ? (
+          <InputQuestion
+            value={rawInput}
+            handleSetInput={setRawInput}
+            handleSetQuestion={() => handleSetQuestion()}
+          />
+        ) : (
+          <OutPut
+            currentQuestion={currentQuestion}
+            randomQuestion={randomQuestion}
+            addNewQuestion={addNewQuestion}
+            resetQuestion={resetQuestion}
+            listQuestion={listQuestion}
+            remainQuestion={remainQuestion}
+          />
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -5,8 +5,11 @@ import InputQuestion from "./components/InputQuestion";
 import OutPut from "./components/RenderQuestion";
 import { wording } from "./assets/wording";
 
+const initail =
+  "หากคุณสามารถเปลี่ยนแปลงโลกได้หนึ่งอย่าง คุณจะเลือกเปลี่ยนอะไร และทำไม?\nคุณคิดว่าอะไรคือคุณสมบัติที่สำคัญที่สุดของผู้นำที่ดี?\nถ้าคุณสามารถพูดคุยกับบุคคลสำคัญในประวัติศาสตร์ได้หนึ่งคน คุณจะเลือกใคร และจะถามอะไร?\nในยุคดิจิทัลที่ข้อมูลแพร่กระจายอย่างรวดเร็ว คุณคิดว่าเราจะจัดการกับข่าวปลอมได้อย่างไร?\nอะไรคือแรงบันดาลใจที่ทำให้คุณเข้าร่วมการประกวดนางงามครั้งนี้?\n";
+
 function App() {
-  const [rawInput, setRawInput] = useState<string>("");
+  const [rawInput, setRawInput] = useState<string>(initail);
   const [currentQuestion, setCurrentQuestion] = useState<string>("");
   const [listQuestion, setListQuestion] = useState<string[]>([]);
   const [remainQuestion, setRemainQuestion] = useState<string[]>([]);

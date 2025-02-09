@@ -1,4 +1,7 @@
+import { useState } from "react";
 import { wording } from "../assets/wording";
+import ContinuoustLoading from "./ContinuoustLoading";
+import { Button } from "antd";
 
 interface RenderQuestion {
   currentQuestion: string;
@@ -17,8 +20,19 @@ const InputQuestion: React.FC<RenderQuestion> = ({
   listQuestion,
   remainQuestion,
 }) => {
-  const getButtonName = (): string => {
-    return wording.btnRandomQuestion;
+  const [isRandomQuestion, setIsRandomQuestion] = useState<boolean>(false);
+
+  const stopRandomQuestion = () => {
+    setIsRandomQuestion(false);
+  };
+
+  const startRandomQuestion = () => {
+    randomQuestion();
+    if (remainQuestion.length === 0) {
+      return;
+    }
+
+    setIsRandomQuestion(true);
   };
 
   const countRemainingQuestion = (): string => {
@@ -27,8 +41,11 @@ const InputQuestion: React.FC<RenderQuestion> = ({
   return (
     <>
       <div
-        className="input-question-container flex-center flex-col g-16"
-        style={{ width: "100%", height: "100%" }}
+        className="input-question-container flex-center flex-col aln-center g-16"
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
       >
         <div
           className="question-contianer"
@@ -39,20 +56,25 @@ const InputQuestion: React.FC<RenderQuestion> = ({
           }}
         >
           <div className="flex-row" style={{ justifyContent: "flex-end" }}>
-            {/* <span>{wording.labelShowQuestion}</span> */}
             <span>{countRemainingQuestion()}</span>
           </div>
-          <p
+          <div
             style={{
               border: "4px solid rgba(255,255,255,0.6)",
               padding: "1.5rem",
               textAlign: "center",
-              fontSize: "6rem",
-              minHeight: "6rem",
+              fontSize: "3rem",
+              height: "15rem",
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            {currentQuestion}
-          </p>
+            {isRandomQuestion ? (
+              <ContinuoustLoading listQuestion={listQuestion} />
+            ) : (
+              <p style={{ width: "100%" }}>{currentQuestion}</p>
+            )}
+          </div>
         </div>
 
         <div
@@ -65,13 +87,21 @@ const InputQuestion: React.FC<RenderQuestion> = ({
               className="btn flex-row"
               style={{ justifyContent: "space-between" }}
             >
-              <button onClick={resetQuestion}>{wording.btnReset}</button>
-              <button onClick={addNewQuestion}>
+              <Button onClick={resetQuestion}>{wording.btnReset}</Button>
+              <Button onClick={addNewQuestion}>
                 {wording.btnAddNewQuestion}
-              </button>
+              </Button>
             </div>
           ) : (
-            <button onClick={randomQuestion}>{getButtonName()}</button>
+            <>
+              {isRandomQuestion ? (
+                <Button onClick={stopRandomQuestion}>{"หยุดสุ่ม"}</Button>
+              ) : (
+                <Button onClick={startRandomQuestion}>
+                  {wording.btnRandomQuestion}
+                </Button>
+              )}
+            </>
           )}
         </div>
       </div>

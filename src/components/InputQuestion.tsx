@@ -1,5 +1,10 @@
 import React from "react";
 import { wording } from "../assets/wording";
+import { Button } from "antd";
+
+import { Input } from "antd";
+
+const { TextArea } = Input;
 
 interface InputQuestionProps {
   value: string;
@@ -19,15 +24,15 @@ const InputQuestion: React.FC<InputQuestionProps> = ({
   return (
     <>
       <div className="input-question-container flex-col g-16">
-        <textarea
+        <TextArea
+          rows={10}
+          cols={100}
           value={value}
           onChange={(e) => handleInputTextArea(e.target.value)}
           placeholder={wording.placeholderInputQuestion}
-          rows={20}
-          cols={50}
         />
         <div className="btn-question-container flex-row g-8">
-          <button onClick={handleSetQuestion}>{wording.btnSetQuestion}</button>
+          <Button onClick={handleSetQuestion}>{wording.btnSetQuestion}</Button>
         </div>
       </div>
     </>

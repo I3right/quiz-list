@@ -13,6 +13,7 @@ function App() {
   const [isShowInput, setIsShowInput] = useState<boolean>(true);
 
   const handleSetQuestion = () => {
+    if (!rawInput.length) return;
     setIsShowInput(!isShowInput);
     processQuestions();
   };
@@ -31,9 +32,6 @@ function App() {
     const amountQuestionLeft = remainQuestion.length;
     if (!amountQuestionLeft) {
       setCurrentQuestion(wording.outOfQuestion);
-      setTimeout(() => {
-        setCurrentQuestion("");
-      }, 1000);
       return;
     }
 
@@ -51,6 +49,7 @@ function App() {
 
   const resetQuestion = () => {
     setRemainQuestion([...listQuestion]);
+    setCurrentQuestion("");
   };
 
   return (

@@ -18,10 +18,7 @@ const InputQuestion: React.FC<RenderQuestion> = ({
   remainQuestion,
 }) => {
   const getButtonName = (): string => {
-    if (listQuestion.length != remainQuestion.length)
-      return wording.btnRandomQuestion;
-
-    return wording.btnStartRandomQuestion;
+    return wording.btnRandomQuestion;
   };
 
   const countRemainingQuestion = (): string => {
@@ -36,20 +33,22 @@ const InputQuestion: React.FC<RenderQuestion> = ({
         <div
           className="question-contianer"
           style={{
-            width: "30%",
-            padding: "16px",
+            width: "80%",
+            padding: "1.5rem",
             color: "salmon",
           }}
         >
-          <div className="flex-row" style={{ justifyContent: "space-between" }}>
-            <span>{wording.labelShowQuestion}</span>
+          <div className="flex-row" style={{ justifyContent: "flex-end" }}>
+            {/* <span>{wording.labelShowQuestion}</span> */}
             <span>{countRemainingQuestion()}</span>
           </div>
           <p
             style={{
               border: "4px solid rgba(255,255,255,0.6)",
-              padding: "16px",
+              padding: "1.5rem",
               textAlign: "center",
+              fontSize: "6rem",
+              minHeight: "6rem",
             }}
           >
             {currentQuestion}
@@ -60,16 +59,20 @@ const InputQuestion: React.FC<RenderQuestion> = ({
           className="btn-container flex-col g-8"
           style={{ width: "30%", justifyContent: "space-around" }}
         >
-          <button onClick={randomQuestion}>{getButtonName()}</button>
-          <div
-            className="btn flex-row"
-            style={{ justifyContent: "space-between" }}
-          >
-            <button onClick={resetQuestion}>{wording.btnReset}</button>
-            <button onClick={addNewQuestion}>
-              {wording.btnAddNewQuestion}
-            </button>
-          </div>
+          {remainQuestion.length === 0 &&
+          currentQuestion === wording.outOfQuestion ? (
+            <div
+              className="btn flex-row"
+              style={{ justifyContent: "space-between" }}
+            >
+              <button onClick={resetQuestion}>{wording.btnReset}</button>
+              <button onClick={addNewQuestion}>
+                {wording.btnAddNewQuestion}
+              </button>
+            </div>
+          ) : (
+            <button onClick={randomQuestion}>{getButtonName()}</button>
+          )}
         </div>
       </div>
     </>

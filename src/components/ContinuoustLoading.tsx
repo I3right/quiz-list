@@ -14,13 +14,13 @@ const InputQuestion: React.FC<ContinuousLoading> = ({ listQuestion }) => {
       setCurrentWord(
         listQuestion[Math.floor(Math.random() * listQuestion.length)]
       );
-    }, 10); // Change word every 2 seconds
+    }, 10); // Change word every 10 ms
 
     return () => clearInterval(intervalId); // Cleanup interval on component unmount
   }, []);
   return (
     <>
-      <div className="">{currentWord}</div>
+      <div style={{ width: "100%" }}>{currentWord}</div>
     </>
   );
 };

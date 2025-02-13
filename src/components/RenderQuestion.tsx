@@ -44,6 +44,7 @@ const InputQuestion: React.FC<RenderQuestion> = ({
       return;
     }
 
+    setIsPauseCountDown(false);
     setIsRandomQuestion(true);
     setIsShowCountDownButton(true);
   };

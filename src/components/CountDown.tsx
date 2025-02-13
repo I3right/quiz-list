@@ -11,7 +11,7 @@ const CountDown: React.FC<CountDownProps> = ({ isPaused }) => {
 
   useEffect(() => {
     if (!isPaused && countDown > 0) {
-      const timer = setTimeout(() => setCountDown(countDown - 1), 1000);
+      const timer = setTimeout(() => setCountDown(countDown - 1), 600);
       return () => clearTimeout(timer);
     }
   }, [countDown, isPaused]);
